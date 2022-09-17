@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: productReview
+
+  datasource:
+    url: jdbc:postgresql://localhost:2222/productReview
+    username: postgres
+    password: 1
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop #create-drop
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    show-sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+
+
+  main:
+    allow-bean-definition-overriding: true
+
+web:
+  resources:
+    static-locations: classpath:/resources/images
+
+jwt:
+  expiration: 3600000
+  secret: MYSECRET@!
+
+server:
+  port: 4040
+
+
