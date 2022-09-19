@@ -27,23 +27,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-
-
-//    @Bean
-//    public RoleHierarchy roleHierarchy() {
-//        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-//        String hierarchy = "ROLE_ADMIN > ROLE_GOLD > ROLE_BRONZE > ROLE_SILVER";
-//        roleHierarchy.setHierarchy(hierarchy);
-//        return roleHierarchy;
-//    }
-//
-//    @Bean
-//    public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
-//        DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
-//        expressionHandler.setRoleHierarchy(roleHierarchy());
-//        return expressionHandler;
-//    }
-
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailService)
             throws Exception {
@@ -61,9 +44,9 @@ public class SecurityConfiguration {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/uaa/**", "/users/**", "/roles/**", "/addresses/**", "/products/**").permitAll()
-//                .antMatchers(HttpMethod.POST,"/api/v1/users").hasAuthority("ADMIN")
-                //               .antMatchers(HttpMethod.GET,"/products").hasAuthority("GOLD")
+                .antMatchers("/uaa/signup", "/uaa/signin").permitAll()
+                .antMatchers("/products/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -80,53 +63,4 @@ public class SecurityConfiguration {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Bean
-//    public JwtFilter jwtFilter(JwtHelper jwtHelper, UserDetailsService service) {
-//        return new JwtFilter(jwtHelper, service);
-//    }
-
-//    @Bean
-//    public UserDetailsService userDetailsService(AuthenticationManager authenticationManager, UserRepo userRepo, ModelMapper mapper, JwtHelper jwtHelper){
-//        return new UserServiceImpl(userRepo, mapper, bCryptPasswordEncoder(), authenticationManager, jwtHelper);
-//    }
-
-
-//    private final UserDetailsService awesomeUserDetailsService;
-//    private final JwtFilter jwtFilter;
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(awesomeUserDetailsService);
-//    }
-//
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//
-//        http
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/uaa").permitAll()
-//                .antMatchers("/products").hasAuthority("CLIENT")
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//    }
-//
-//    @Bean
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
-
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
 }

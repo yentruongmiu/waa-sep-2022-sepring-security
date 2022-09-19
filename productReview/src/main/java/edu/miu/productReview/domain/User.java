@@ -26,24 +26,22 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
+    private String gender; //female, male
 
     //user can create many review
     @OneToMany(mappedBy="user")
-    @JsonManagedReference
     private List<Review> reviews;
 
     //user can have only one Address
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="id_address")
-    @JsonManagedReference
     private Address address;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "users_roles",
             joinColumns=@JoinColumn(name="user_id"),
             inverseJoinColumns=@JoinColumn(name="role_id")
     )
-    @JsonManagedReference
     private Set<Role> roles = new HashSet<>();
 
     public void addRole(Role role) {
@@ -68,7 +66,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        this.roles.forEach(r -> authorities.add(new SimpleGrantedAuthority(r.getRole())));
+        this.roles.forEach(r -> authorities.add(new SimpleGrantedAuthority("ROLE_"+r.getRole().toUpperCase())));
 
         return authorities;
     }

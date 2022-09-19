@@ -21,12 +21,12 @@ public class Product {
     private Float price;
     private Float rating;
 
+    private int userId;
+
     //a product can belong to only one category
     @ManyToOne
-    @JsonBackReference
     private Category category;
 
     @OneToMany(mappedBy = "product") //on column, bidirection
-    @JsonManagedReference
     private List<Review> reviews;
 }

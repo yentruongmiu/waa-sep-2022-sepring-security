@@ -3,12 +3,15 @@ package edu.miu.productReview.controller;
 import edu.miu.productReview.dto.ProductDto;
 import edu.miu.productReview.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -24,8 +27,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductDto save(@RequestBody ProductDto product) {
-        return productService.save(product);
+    public ResponseEntity<ProductDto> save(@RequestBody ProductDto product) {
+        return new ResponseEntity<>(productService.save(product), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

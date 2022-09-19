@@ -18,9 +18,7 @@ public class Category {
     private int id;
     private String name;
 
-
     //A category can have many products
     @OneToMany(mappedBy = "category")
-    @JsonManagedReference
     private List<Product> products;
 }

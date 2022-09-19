@@ -31,7 +31,7 @@ web:
     static-locations: classpath:/resources/images
 
 jwt:
-  expiration: 3600000
+  expiration: 54000000 #15 minutes
   secret: MYSECRET@!
 
 server:

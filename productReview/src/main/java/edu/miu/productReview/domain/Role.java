@@ -22,7 +22,5 @@ public class Role {
     private String role;
 
     @ManyToMany(mappedBy="roles", fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
-    //@JsonIgnore
     private Set<User> users = new HashSet<>();
 }

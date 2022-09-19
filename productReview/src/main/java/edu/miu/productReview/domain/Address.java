@@ -13,13 +13,12 @@ import javax.persistence.*;
 @Entity
 public class Address {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String street;
     private String zip;
     private String city;
 
     @OneToOne(mappedBy="address")
-    @JsonManagedReference
     private User user;
 }

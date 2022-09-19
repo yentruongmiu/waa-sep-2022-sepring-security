@@ -3,12 +3,14 @@ package edu.miu.productReview.service.impl;
 import edu.miu.productReview.aspect.ExecutionTime;
 import edu.miu.productReview.domain.Category;
 import edu.miu.productReview.domain.Product;
+import edu.miu.productReview.domain.User;
 import edu.miu.productReview.dto.ProductDto;
 import edu.miu.productReview.repo.CategoryRepo;
 import edu.miu.productReview.repo.ProductRepo;
 import edu.miu.productReview.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,8 +28,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @ExecutionTime
     public ProductDto save(ProductDto product) {
-        System.out.println(product);
-        Product result = productRepo.save(mapper.map(product, Product.class));
+        Product productEntity = mapper.map(product, Product.class);
+        int userId = ((User) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getId();
+        productEntity.setUserId(userId);
+        Product result = productRepo.save(productEntity);
         return mapper.map(result, ProductDto.class);
     }
 

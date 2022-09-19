@@ -1,5 +1,6 @@
 package edu.miu.productReview.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 @AllArgsConstructor
@@ -9,6 +10,7 @@ import lombok.*;
 public class ReviewDto {
     private int id;
     private String comment;
-    //@JsonBackReference
     private UserDto user;
+    @JsonBackReference
+    private ProductDto product;
 }
